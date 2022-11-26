@@ -84,6 +84,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         controller = new Controller(this);
         initComponents();
+
         //invTable.addComponentListener((ComponentListener) controller);
     }
 
@@ -235,8 +236,22 @@ public class MainFrame extends javax.swing.JFrame {
 
         totalConst.setText("Invoice Total");
 
+        invDateField.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                invDateFieldInputMethodTextChanged(evt);
+            }
+        });
         invDatePane.setViewportView(invDateField);
 
+        custNameField.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                custNameFieldInputMethodTextChanged(evt);
+            }
+        });
         custNamePane.setViewportView(custNameField);
 
         saveChangeBtn.setText("Save");
@@ -374,20 +389,42 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try {
-            File file = new File("/Users/maysoon/Desktop/Sales Invoice Generator/TXT.txt");
-            if (!file.exists()) {
-                file.createNewFile();
+            File fileInvoice = new File("/Users/maysoon/Desktop/InvoiceHeaders.csv");
+            File fileItems = new File("/Users/maysoon/Desktop/InvoiceLines.csv");
+
+            if (!fileInvoice.exists()) {
+                fileInvoice.createNewFile();
             }
-            FileWriter writer = new FileWriter(file.getAbsoluteFile());
-            BufferedWriter buffer = new BufferedWriter(writer);
+
+            if (!fileItems.exists()) {
+                fileItems.createNewFile();
+            }
+            FileWriter writer1 = new FileWriter(fileInvoice.getAbsoluteFile());
+            BufferedWriter buffer1 = new BufferedWriter(writer1);
+
             for (int row = 0; row < invTable.getRowCount(); row++) {
                 for (int col = 0; col < invTable.getColumnCount(); col++) {
-                    buffer.write((String) invTable.getValueAt(row, col).toString() + " ");
+                    buffer1.write((String) invTable.getValueAt(row, col).toString() + " ");
                 }
-                buffer.write("\n---------\n");
+                buffer1.write("\n---------\n");
             }
-            buffer.close();
-            writer.close();
+
+            buffer1.close();
+            writer1.close();
+
+            FileWriter writer2 = new FileWriter(fileItems.getAbsoluteFile());
+            BufferedWriter buffer2 = new BufferedWriter(writer2);
+
+            for (int row = 0; row < invItemsTable.getRowCount(); row++) {
+                for (int col = 0; col < invItemsTable.getColumnCount(); col++) {
+                    buffer2.write((String) invItemsTable.getValueAt(row, col).toString() + " ");
+                }
+                buffer2.write("\n---------\n");
+            }
+
+            buffer2.close();
+            writer2.close();
+            
         } catch (IOException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -429,7 +466,7 @@ public class MainFrame extends javax.swing.JFrame {
             for (Invoice invoice : getInvoices()) {
                 if (invoice.getInvNumber() == Integer.valueOf(invNumberLabel.getText())) {
                     invoice.setCustName(custNameField.getText());
-                   // invoice.setInvDate(date);
+                    // invoice.setInvDate(date);
                 }
             }
             addDataInInvoiceTable();
@@ -438,6 +475,17 @@ public class MainFrame extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_saveChangeBtnActionPerformed
+
+    private void invDateFieldInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_invDateFieldInputMethodTextChanged
+        // TODO add your handling code here:
+        cancelInvItemBtn.setEnabled(true);
+    }//GEN-LAST:event_invDateFieldInputMethodTextChanged
+
+    private void custNameFieldInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_custNameFieldInputMethodTextChanged
+        // TODO add your handling code here:
+        cancelInvItemBtn.setEnabled(true);
+
+    }//GEN-LAST:event_custNameFieldInputMethodTextChanged
 
     public ArrayList<Invoice> getInvoices() {
         if (invoices == null) {
@@ -498,7 +546,6 @@ public class MainFrame extends javax.swing.JFrame {
             }
         }
 
-        cancelInvItemBtn.setEnabled(true);
     }
 
     public void setIvoices(ArrayList<Invoice> invoices) {
@@ -539,7 +586,7 @@ public class MainFrame extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Please select your invoice");
         }
-    
+
     }
 
     public void removeSelectedRowInInvItemTable() {
@@ -573,7 +620,9 @@ public class MainFrame extends javax.swing.JFrame {
     public JButton getSaveChangeBtn() {
         return saveChangeBtn;
     }
-    
-    
+
+    public JButton getCancelBtn() {
+        return cancelInvItemBtn;
+    }
 
 }

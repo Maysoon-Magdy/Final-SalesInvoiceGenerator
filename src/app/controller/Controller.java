@@ -150,7 +150,6 @@ public class Controller implements ActionListener, ListSelectionListener {
     }
 
     public void saveFile() {
-       
 
     }
 
@@ -201,8 +200,8 @@ public class Controller implements ActionListener, ListSelectionListener {
             frame.gettotalLabel().setText("");
 
         }
-        
-                frame.getSaveChangeBtn().setEnabled(true);
+
+        frame.getSaveChangeBtn().setEnabled(true);
     }
 
 }
