@@ -7,12 +7,6 @@ package app.view;
 import app.controller.Controller;
 import app.model.Invoice;
 import app.model.InvoiceItems;
-
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.event.ComponentListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -22,19 +16,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -45,11 +34,12 @@ public class MainFrame extends javax.swing.JFrame {
     CreateNewInvoices newInvoice = new CreateNewInvoices(this);
     CreateNewInvoiceItems newInvoiceItem = new CreateNewInvoiceItems(this);
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JButton cancelInvItemBtn;
+    private javax.swing.JButton createInvItemBtn;
     private javax.swing.JLabel custNameConst;
     private javax.swing.JTextPane custNameField;
     private javax.swing.JScrollPane custNamePane;
     private javax.swing.JButton delInvBtn;
+    private javax.swing.JButton delItemBtn;
     private javax.swing.JLabel invDateConst;
     private javax.swing.JTextPane invDateField;
     private javax.swing.JScrollPane invDatePane;
@@ -68,9 +58,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar menuBar;
     private java.awt.MenuBar menuBar1;
     private javax.swing.JButton newInvBtn;
-    private static javax.swing.JButton saveChangeBtn;
     private javax.swing.JMenuItem saveFileItem;
-    private javax.swing.JButton saveInvItemBtn;
     private javax.swing.JLabel totalConst;
     private javax.swing.JLabel totalLabel;
     // End of variables declaration//GEN-END:variables
@@ -84,8 +72,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         controller = new Controller(this);
         initComponents();
+     //   invItemsTable.removeColumn(invItemsTable.getColumnModel().getColumn(5));
 
-        //invTable.addComponentListener((ComponentListener) controller);
     }
 
     /**
@@ -120,9 +108,8 @@ public class MainFrame extends javax.swing.JFrame {
             public void run() {
                 MainFrame frame = new MainFrame();
                 frame.setVisible(true);
-                cancelInvItemBtn.setEnabled(false);
-                saveChangeBtn.setEnabled(false);
-                //  frame.controller.loadFile("InvoiceHeader.csv", "InvoiceLine.csv"); // not working
+                //   cancelInvItemBtn.setEnabled(false); feature canceled 
+                //  saveChangeBtn.setEnabled(false);     feature canceled 
 
             }
         });
@@ -148,10 +135,8 @@ public class MainFrame extends javax.swing.JFrame {
         delInvBtn.addActionListener(controller);
         invItemsPan = new javax.swing.JScrollPane();
         invItemsTable = new javax.swing.JTable();
-        saveInvItemBtn = new javax.swing.JButton();
-        saveInvItemBtn.addActionListener(controller);
-        cancelInvItemBtn = new javax.swing.JButton();
-        cancelInvItemBtn.addActionListener(controller);
+        createInvItemBtn = new javax.swing.JButton();
+        createInvItemBtn.addActionListener(controller);
         invTableLabel = new javax.swing.JLabel();
         invItemTableLabel = new javax.swing.JLabel();
         invNumConst = new javax.swing.JLabel();
@@ -164,8 +149,8 @@ public class MainFrame extends javax.swing.JFrame {
         invDateField = new javax.swing.JTextPane();
         custNamePane = new javax.swing.JScrollPane();
         custNameField = new javax.swing.JTextPane();
-        saveChangeBtn = new javax.swing.JButton();
-        saveChangeBtn.addActionListener(controller);
+        delItemBtn = new javax.swing.JButton();
+        delItemBtn.addActionListener(controller);
         menuBar = new javax.swing.JMenuBar();
         mainMenu = new javax.swing.JMenu();
         loadFileItem = new javax.swing.JMenuItem();
@@ -188,7 +173,15 @@ public class MainFrame extends javax.swing.JFrame {
             new String [] {
                 "No. ", "Date", "Customer", "Total"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         invPane.setViewportView(invTable);
 
         newInvBtn.setText("Create New Invoice");
@@ -199,28 +192,35 @@ public class MainFrame extends javax.swing.JFrame {
         });
 
         delInvBtn.setText("Delete Invoice");
+        delInvBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delInvBtnActionPerformed(evt);
+            }
+        });
 
         invItemsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "No.", "Item Name", "Item price", "Count", "Item Total"
+                "No.", "Item Name", "Item price", "Count", "Item Total", "ID"
             }
-        ));
-        invItemsPan.setViewportView(invItemsTable);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
-        saveInvItemBtn.setText("Add Item");
-        saveInvItemBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveInvItemBtnActionPerformed(evt);
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        invItemsPan.setViewportView(invItemsTable);
 
-        cancelInvItemBtn.setText("Cancel");
-        cancelInvItemBtn.addActionListener(new java.awt.event.ActionListener() {
+        createInvItemBtn.setText("Create ");
+        createInvItemBtn.setActionCommand("Create Invoice Item");
+        createInvItemBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelInvItemBtnActionPerformed(evt);
+                createInvItemBtnActionPerformed(evt);
             }
         });
 
@@ -254,10 +254,11 @@ public class MainFrame extends javax.swing.JFrame {
         });
         custNamePane.setViewportView(custNameField);
 
-        saveChangeBtn.setText("Save");
-        saveChangeBtn.addActionListener(new java.awt.event.ActionListener() {
+        delItemBtn.setText("Delete ");
+        delItemBtn.setActionCommand("Delete Item");
+        delItemBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveChangeBtnActionPerformed(evt);
+                delItemBtnActionPerformed(evt);
             }
         });
 
@@ -301,14 +302,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(saveInvItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(saveChangeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cancelInvItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addComponent(invItemsPan, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                        .addGap(29, 29, 29)
+                        .addComponent(createInvItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(105, 105, 105)
+                        .addComponent(delItemBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                        .addGap(70, 70, 70))
+                    .addComponent(invItemsPan, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(7, 7, 7)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,18 +318,22 @@ public class MainFrame extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(custNameConst)
-                                        .addGap(18, 18, 18)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(custNamePane))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(totalConst, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(invDateConst, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(invNumConst, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
-                                        .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(totalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(invNumberLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(invDatePane, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(totalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(invNumberLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(invDatePane)))))
                                 .addContainerGap())))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(15, 15, 15)
@@ -351,14 +354,14 @@ public class MainFrame extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(invNumConst)
                             .addComponent(invNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(invDateConst)
                             .addComponent(invDatePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(custNamePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(custNameConst))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(custNameConst)
+                            .addComponent(custNamePane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(totalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -371,9 +374,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newInvBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(delInvBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveInvItemBtn)
-                    .addComponent(cancelInvItemBtn)
-                    .addComponent(saveChangeBtn))
+                    .addComponent(createInvItemBtn)
+                    .addComponent(delItemBtn))
                 .addGap(15, 15, 15))
         );
 
@@ -424,14 +426,14 @@ public class MainFrame extends javax.swing.JFrame {
 
             buffer2.close();
             writer2.close();
-            
+
         } catch (IOException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_saveFileItemActionPerformed
 
-    private void saveInvItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveInvItemBtnActionPerformed
+    private void createInvItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createInvItemBtnActionPerformed
         // TODO add your handling code here:
 
         if (invTable.getSelectedRow() == -1) {
@@ -440,7 +442,7 @@ public class MainFrame extends javax.swing.JFrame {
             newInvoiceItem.setVisible(true);
         }
 
-    }//GEN-LAST:event_saveInvItemBtnActionPerformed
+    }//GEN-LAST:event_createInvItemBtnActionPerformed
 
     private void newInvBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newInvBtnActionPerformed
         // TODO add your handling code here:
@@ -449,43 +451,27 @@ public class MainFrame extends javax.swing.JFrame {
         newInvoice.setLocationRelativeTo(null);
         newInvoice.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_newInvBtnActionPerformed
-
-    private void cancelInvItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelInvItemBtnActionPerformed
-        // TODO add your handling code here:        
-        custNameField.setText(invTable.getValueAt(invTable.getSelectedRow(), 2).toString());
-        invDateField.setText(invTable.getValueAt(invTable.getSelectedRow(), 1).toString());
-
-    }//GEN-LAST:event_cancelInvItemBtnActionPerformed
-
-    private void saveChangeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveChangeBtnActionPerformed
-        try {
-            // TODO add your handling code here:
-            DateFormat sdf = new SimpleDateFormat("E MMM dd HH:mm:ss Z yyyy");
-            DateFormat df = new SimpleDateFormat("dd.MM.yyyy");
-            String date = df.format(sdf.parse(invDateField.getText()));
-            for (Invoice invoice : getInvoices()) {
-                if (invoice.getInvNumber() == Integer.valueOf(invNumberLabel.getText())) {
-                    invoice.setCustName(custNameField.getText());
-                    // invoice.setInvDate(date);
-                }
-            }
-            addDataInInvoiceTable();
-        } catch (ParseException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }//GEN-LAST:event_saveChangeBtnActionPerformed
-
+    /* Commented save changes feature in invoices items */
     private void invDateFieldInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_invDateFieldInputMethodTextChanged
         // TODO add your handling code here:
-        cancelInvItemBtn.setEnabled(true);
+        //  cancelInvItemBtn.setEnabled(true);
     }//GEN-LAST:event_invDateFieldInputMethodTextChanged
 
     private void custNameFieldInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_custNameFieldInputMethodTextChanged
         // TODO add your handling code here:
-        cancelInvItemBtn.setEnabled(true);
+        //  cancelInvItemBtn.setEnabled(true);
 
     }//GEN-LAST:event_custNameFieldInputMethodTextChanged
+
+    private void delItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delItemBtnActionPerformed
+        if (invItemsTable.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(this, "Please load your invoices and select invoice item you want to delete ", "info", JOptionPane.INFORMATION_MESSAGE);
+        }         // TODO add your handling code here:
+    }//GEN-LAST:event_delItemBtnActionPerformed
+
+    private void delInvBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delInvBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_delInvBtnActionPerformed
 
     public ArrayList<Invoice> getInvoices() {
         if (invoices == null) {
@@ -524,7 +510,7 @@ public class MainFrame extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) invItemsTable.getModel();
         model.setRowCount(0);
         ArrayList<InvoiceItems> myInvoiceItems = getInvoiceItems();
-        Object rowData[] = new Object[5];
+        Object rowData[] = new Object[6];
         for (int i = 0; i < myInvoiceItems.size(); i++) {
             if (selectedInvoice != -1) {
                 if (myInvoiceItems.get(i).getInvNumber() == selectedInvoice) {
@@ -533,6 +519,7 @@ public class MainFrame extends javax.swing.JFrame {
                     rowData[2] = myInvoiceItems.get(i).getItemPrice();
                     rowData[3] = myInvoiceItems.get(i).getItemsCount();
                     rowData[4] = myInvoiceItems.get(i).calcTotalPrice();
+                    rowData[5] = myInvoiceItems.get(i).getId();
                     model.addRow(rowData);
                 }
 
@@ -542,6 +529,7 @@ public class MainFrame extends javax.swing.JFrame {
                 rowData[2] = myInvoiceItems.get(i).getItemPrice();
                 rowData[3] = myInvoiceItems.get(i).getItemsCount();
                 rowData[4] = myInvoiceItems.get(i).calcTotalPrice();
+                rowData[5] = myInvoiceItems.get(i).getId();
                 model.addRow(rowData);
             }
         }
@@ -590,6 +578,39 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     public void removeSelectedRowInInvItemTable() {
+        if (invItemsTable.getSelectedRowCount() > 0) {
+            UUID id = (UUID) invItemsTable.getModel().getValueAt(invItemsTable.getSelectedRow(), 5);
+            int parentId = (int) invItemsTable.getModel().getValueAt(invItemsTable.getSelectedRow(), 0);
+            for (int i = 0; i < getInvoiceItems().size(); i++) {
+                if (getInvoiceItems().get(i).getId() == id) {
+                    getInvoiceItems().remove(i);
+                    for (int x = 0; x < getInvoices().size(); x++) {
+                        if (parentId == getInvoices().get(x).getInvNumber()) {
+                            for (int j = 0; j < getInvoices().get(x).getItems().size(); j++) {
+                                if (getInvoices().get(x).getItems().get(j).getId() == id) {
+                                    getInvoices().get(x).getItems().remove(j);
+                                }
+                               // break;
+                            }
+                        }
+                    }
+                    break;
+                }
+            }
+            addDatainInvitemsTable();
+            addDataInInvoiceTable();
+        }
+        /*else if (invItemsTable.getSelectedRowCount() > 0 && invTable.getSelectedRowCount() > 0) {
+            int Parentinvoice = (int) invTable.getValueAt(invTable.getSelectedRow(), 0);
+            ArrayList<InvoiceItems> newItems = new ArrayList<InvoiceItems>();
+            int index = invItemsTable.getSelectedRow();
+            for(InvoiceItems item : getInvoiceItems()){
+                if(Parentinvoice == item.getInvNumber()){
+                    newItems.add(item);
+                }
+            }
+            newItems.remove(index);
+        }*/
 
     }
 
@@ -615,14 +636,6 @@ public class MainFrame extends javax.swing.JFrame {
 
     public JLabel gettotalLabel() {
         return totalLabel;
-    }
-
-    public JButton getSaveChangeBtn() {
-        return saveChangeBtn;
-    }
-
-    public JButton getCancelBtn() {
-        return cancelInvItemBtn;
     }
 
 }

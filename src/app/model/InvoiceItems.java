@@ -4,6 +4,8 @@
  */
 package app.model;
 
+import java.util.UUID;
+
 /**
  * @author maysoon
  */
@@ -13,16 +15,20 @@ public class InvoiceItems {
     private String itemName;
     private int itemsCount;
     private double itemPrice;
+    private UUID id;
 
     public InvoiceItems(int invNumber, String itemName, double itemPrice, int itemCount) {
         this.invNumber = invNumber;
         this.itemName = itemName;
         this.itemsCount = itemCount;
         this.itemPrice = itemPrice;
+        this.id = java.util.UUID.randomUUID();
     }
 
-
     //getters & setters
+    public UUID getId() {
+        return id;
+    }
 
     public int getInvNumber() {
         return invNumber;
@@ -31,7 +37,6 @@ public class InvoiceItems {
     public void setInvNumber(int invNumber) {
         this.invNumber = invNumber;
     }
-
 
     public String getItemName() {
         return itemName;
@@ -58,7 +63,6 @@ public class InvoiceItems {
     }
 
     //methods
-
     @Override
     public String toString() {
         return "InvoiceItems{" + "itemName=" + itemName + ", itemsCount=" + itemsCount + ", itemPrice=" + itemPrice + '}';

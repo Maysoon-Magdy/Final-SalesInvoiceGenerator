@@ -4,13 +4,10 @@
  */
 package app.view;
 
-import app.controller.Controller;
 import app.model.Invoice;
 import app.model.InvoiceItems;
 import app.controller.Controller;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
+
 
 /**
  *

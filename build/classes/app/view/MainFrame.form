@@ -90,15 +90,13 @@
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
-                      <Component id="saveInvItemBtn" min="-2" pref="105" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                      <Component id="saveChangeBtn" min="-2" pref="107" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Component id="cancelInvItemBtn" min="-2" pref="105" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="createInvItemBtn" min="-2" pref="105" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
+                      <Component id="delItemBtn" pref="103" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="invItemsPan" alignment="0" pref="404" max="32767" attributes="0"/>
+                  <Component id="invItemsPan" alignment="0" pref="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -110,7 +108,7 @@
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Component id="custNameConst" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="custNamePane" max="32767" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
@@ -119,11 +117,18 @@
                                           <Component id="invDateConst" max="32767" attributes="0"/>
                                           <Component id="invNumConst" pref="94" max="32767" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="totalLabel" max="32767" attributes="0"/>
-                                          <Component id="invNumberLabel" alignment="0" max="32767" attributes="0"/>
-                                          <Component id="invDatePane" alignment="1" max="32767" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <EmptySpace min="18" pref="18" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="totalLabel" max="32767" attributes="0"/>
+                                                  <Component id="invNumberLabel" alignment="0" max="32767" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                              <Component id="invDatePane" max="32767" attributes="0"/>
+                                          </Group>
                                       </Group>
                                   </Group>
                               </Group>
@@ -156,15 +161,15 @@
                           <Component id="invNumConst" min="-2" max="-2" attributes="0"/>
                           <Component id="invNumberLabel" min="-2" pref="23" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="invDateConst" min="-2" max="-2" attributes="0"/>
                           <Component id="invDatePane" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="custNamePane" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="custNameConst" min="-2" max="-2" attributes="0"/>
+                          <Component id="custNamePane" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -181,9 +186,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="newInvBtn" alignment="3" max="32767" attributes="0"/>
                   <Component id="delInvBtn" alignment="3" max="32767" attributes="0"/>
-                  <Component id="saveInvItemBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cancelInvItemBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="saveChangeBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="createInvItemBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="delItemBtn" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
           </Group>
@@ -202,10 +206,10 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="0">
-                <Column editable="true" title="No. " type="java.lang.Object"/>
-                <Column editable="true" title="Date" type="java.lang.Object"/>
-                <Column editable="true" title="Customer" type="java.lang.Object"/>
-                <Column editable="true" title="Total" type="java.lang.Object"/>
+                <Column editable="false" title="No. " type="java.lang.Object"/>
+                <Column editable="false" title="Date" type="java.lang.Object"/>
+                <Column editable="false" title="Customer" type="java.lang.Object"/>
+                <Column editable="false" title="Total" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
@@ -257,6 +261,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Delete Invoice"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delInvBtnActionPerformed"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="delInvBtn.addActionListener(controller);"/>
       </AuxValues>
@@ -271,39 +278,29 @@
         <Component class="javax.swing.JTable" name="invItemsTable">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="5" rowCount="0">
-                <Column editable="true" title="No." type="java.lang.Object"/>
-                <Column editable="true" title="Item Name" type="java.lang.Object"/>
-                <Column editable="true" title="Item price" type="java.lang.Object"/>
-                <Column editable="true" title="Count" type="java.lang.Object"/>
-                <Column editable="true" title="Item Total" type="java.lang.Object"/>
+              <Table columnCount="6" rowCount="0">
+                <Column editable="false" title="No." type="java.lang.Object"/>
+                <Column editable="false" title="Item Name" type="java.lang.Object"/>
+                <Column editable="false" title="Item price" type="java.lang.Object"/>
+                <Column editable="false" title="Count" type="java.lang.Object"/>
+                <Column editable="false" title="Item Total" type="java.lang.Object"/>
+                <Column editable="false" title="ID" type="java.lang.Object"/>
               </Table>
             </Property>
           </Properties>
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="saveInvItemBtn">
+    <Component class="javax.swing.JButton" name="createInvItemBtn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Add Item"/>
+        <Property name="text" type="java.lang.String" value="Create "/>
+        <Property name="actionCommand" type="java.lang.String" value="Create Invoice Item"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveInvItemBtnActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="createInvItemBtnActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="saveInvItemBtn.addActionListener(controller);"/>
-      </AuxValues>
-    </Component>
-    <Component class="javax.swing.JButton" name="cancelInvItemBtn">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Cancel"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cancelInvItemBtnActionPerformed"/>
-      </Events>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="cancelInvItemBtn.addActionListener(controller);"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="createInvItemBtn.addActionListener(controller);"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="invTableLabel">
@@ -368,16 +365,16 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="saveChangeBtn">
+    <Component class="javax.swing.JButton" name="delItemBtn">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Save"/>
+        <Property name="text" type="java.lang.String" value="Delete "/>
+        <Property name="actionCommand" type="java.lang.String" value="Delete Item"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="saveChangeBtnActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="delItemBtnActionPerformed"/>
       </Events>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="saveChangeBtn.addActionListener(controller);"/>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="10"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="delItemBtn.addActionListener(controller);"/>
       </AuxValues>
     </Component>
   </SubComponents>

@@ -46,10 +46,6 @@ public class Controller implements ActionListener, ListSelectionListener {
                 newInvoice();
             case "Delete Invoice" ->
                 deleteInvoice();
-            case "Save" ->
-                saveItem();
-            case "Cancel" ->
-                cancelItem();
             case "Load File" ->
                 loadFile(null, null);
             case "Save File" ->
@@ -58,6 +54,8 @@ public class Controller implements ActionListener, ListSelectionListener {
                 submitNewIetm();
             case "Add New Invoice" ->
                 createNewInvoice();
+            case "Delete Item" ->
+                deleterInvoiceItem();
 
         }
     }
@@ -69,10 +67,8 @@ public class Controller implements ActionListener, ListSelectionListener {
         frame.removeSelectedRowInInvTable();
     }
 
-    private void saveItem() {
-    }
+    private void deleterInvoiceItem() {
 
-    private void cancelItem() {
         frame.removeSelectedRowInInvItemTable();
     }
 
@@ -116,7 +112,7 @@ public class Controller implements ActionListener, ListSelectionListener {
                     Invoice invoice = new Invoice(invoiceNumbCast, invDateCaset, invCustName);
                     // getInvoicesMethod
                     frame.getInvoices().add(invoice);
-
+                    
                 }
 
                 // filter items related to the selected invoices
@@ -183,12 +179,13 @@ public class Controller implements ActionListener, ListSelectionListener {
             model.setRowCount(0);
             for (InvoiceItems item : result) {
                 if (item.getInvNumber() == selectedInvoice) {
-                    Object rowData[] = new Object[5];
+                    Object rowData[] = new Object[6];
                     rowData[0] = item.getInvNumber();
                     rowData[1] = item.getItemName();
                     rowData[2] = item.getItemPrice();
                     rowData[3] = item.getItemsCount();
                     rowData[4] = item.calcTotalPrice();
+                    rowData[5] = item.getId();
                     model.addRow(rowData);
                 }
 
@@ -201,7 +198,6 @@ public class Controller implements ActionListener, ListSelectionListener {
 
         }
 
-        frame.getSaveChangeBtn().setEnabled(true);
     }
 
 }
